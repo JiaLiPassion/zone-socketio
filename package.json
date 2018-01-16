@@ -1,0 +1,23 @@
+{
+  "name": "zone-socketio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JiaLiPassion/zone-socketio.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JiaLiPassion/zone-socketio/issues"
+  },
+  "homepage": "https://github.com/JiaLiPassion/zone-socketio#readme",
+  "dependencies": {
+    "socket.io": "^2.0.4",
+    "zone.js": "git+https://github.com/JiaLiPassion/zone.js.git#socketio-dist"
+  }
+}
