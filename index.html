@@ -1,10 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
+    <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="node_modules/zone.js/dist/zone-patch-socket-io.js"></script>
+    <script>
+      Zone[Zone.__symbol__('socketio')](io);
+      var socket = io('http://localhost:8086');
+      var zone = Zone.current.fork({
+        name: 'socketio',
+        onScheduleTask: function(delegate, curr, target, task) {
+          console.log('schedule task', task.type, task.source);
+          return delegate.scheduleTask(target, task);
+        },
+        onInvokeTask: function(delegate, curr, target, task, applyThis, applyArgs, source) {
+          console.log('invoke task', task.type, task.source);
+          return delegate.invokeTask(target, task, applyThis, applyArgs, source);
+        },
+        onCancelTask: function(delegate, curr, target, task) {
+          console.log('cancel task', task.type, task.source);
+          return delegate.cancelTask(target, task);
+        }
+      });
+      zone.run(function() {
+        socket.on('news', function (data) {
+          console.log(data);
+          console.log('zone', Zone.current.name);
+          socket.emit('my other event', { my: 'data' });
+          socket.off('news');
+        });
+      });
+    </script>
 </head>
-<body>
-$END$
-</body>
 </html>
